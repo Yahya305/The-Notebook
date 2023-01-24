@@ -49,7 +49,7 @@ def postBlog():
         if image_file.filename == '':
             return jsonify({'error': 'No image file selected'}), 400
         # image_file.save('C:/Users/saimy/Desktop/image_file.bmp')
-        image_file.save('E:/React/backend/static/Web Images/image_file.bmp')
+        image_file.save('E:/React/blog_app/backend/static/Web Images/image_file.bmp')
         inpFile=open("static\\Web Images\\image_file.bmp","rb")
         outFile=open("static\\Web Images\\image_file.bmp","r+b")
         GrayScale.grayScale(inpFile,outFile)

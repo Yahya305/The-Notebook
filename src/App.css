@@ -66,12 +66,14 @@
   font-family: 'Old English Text MT';
 }
 .navitem{
-  display: flex;
+  color: #282c34;
+  /* display: flex; */
   /* justify-self: flex-end; */
   padding: 1%;
   padding: 10px;
   cursor: pointer;
   border-radius: 5px;
+  text-decoration: none;
 }
 .navitem:hover{
   color: rgb(43,237,37);

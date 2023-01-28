@@ -1,0 +1,25 @@
+.blogs{
+    display: flex;
+    margin-left: 25px;
+    margin-right: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.card{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 280px;
+    height: 300px;
+    padding: 15px;
+    margin: 5px;
+    border: solid;
+    border-radius: 10px;
+    border-color: rgb(197, 197, 197);
+}
+.card:hover {
+    transition: 0.3s; 
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }

@@ -23,10 +23,12 @@ def getQuote():
 @app.route("/blogs")
 @cross_origin()
 def getBlog():
+    from_=int(request.headers.get("from"))
+    to=int(request.headers.get("to"))
     b= open(".\\MOCK_DATA.json","r")
     obj=b.read()
     blogs=json.loads(obj)
-    return blogs
+    return blogs[from_:to]
 
 # arr=[{'quote':'abcdefg'},{'quote':'success krni haii'}]
 # @app.route("/blogs",methods=['POST'])

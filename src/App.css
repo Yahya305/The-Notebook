@@ -156,15 +156,6 @@
   justify-content: center;
   align-items: flex-start;
 }
-.light{
-  background-color: aquamarine;
-}
-.dark{
-  background-color: antiquewhite;
-}
-.sample{
-  background-color: blue;
-}
 .searchbox{
   display: flex;
   justify-content: right;
@@ -208,6 +199,14 @@ input[type="file"] {
 }
 #cancel-btn{
   background-color: #f12f2f;
+}
+.sticky {
+  background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
 }
 /* #imageSrc{
 } */

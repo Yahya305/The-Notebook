@@ -1,11 +1,11 @@
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
-import placeholder from "./placeholder.png";
+// import placeholder from "./placeholder.png";
 
 function ImageContainer() {
-  const [previewImg, setPreviewImg] = useState(placeholder);
-  const [imgResult, setImgResult] = useState(placeholder);
+  const [previewImg, setPreviewImg] = useState("placeholder.png");
+  const [imgResult, setImgResult] = useState("placeholder.png");
   const [inpFile, setInpFile] = useState(null);
   const [loadProgress, setLoadProgress] = useState(-1);
 

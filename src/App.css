@@ -40,7 +40,18 @@
   to {
     transform: rotate(360deg);
   }
-}.navbtns{
+}
+.button {
+  background-color: #158bf9;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  margin: 10px;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+}
+.navbtns{
   font-weight: 600;
   display: flex;
   justify-content: flex-end;
@@ -160,46 +171,7 @@
   display: flex;
   justify-content: right;
 }
-.container-heading{
-  margin-left: 6.5%;
-  margin-right: 6.5%;
-  padding: 3%;
-  justify-self: center;
-  align-self: center;
-}
-input[type="file"] {
-  display: none;
-}
-.button{
-  background-color:#158bf9;
-  color: white;
-  padding: 5px;
-  border-radius: 5px;
-  margin: 10px;
-  font-size: 20px;
-  border: none;
-  cursor: pointer;
-}
-#img-input-button{
-  background-color: #4BB543;
 
-}
-
-.ImageContainer{
-  display: flex;
-  /* flex-direction: column; */
-  margin-left: 1%;
-  /* justify-content: center; */
-  align-items: center;
-  justify-content: space-around;
-}
-.ContainerItem{
-  height: 350px;
-  width: 500px;
-}
-#cancel-btn{
-  background-color: #f12f2f;
-}
 .sticky {
   background-color: white;
   position: fixed;

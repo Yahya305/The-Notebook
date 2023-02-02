@@ -7,7 +7,7 @@ from flask_cors import cross_origin
 app = Flask(__name__)
 
 sys.path.append('static/Image Processing')
-import GrayScale
+from Tools import Edit_tools
 
 q= open("static\\quotes.json","r")
 jsondata=q.read()
@@ -48,17 +48,24 @@ def getBlog():
 def postBlog():
     try:
         image_file = request.files['inpFile']
+        # convertTo = request.files['convertTo']
+        convertTo = request.form["convertTo"]
+        edit=Edit_tools()
+        process={
+            "Gray Scale":edit.grayScale,
+            "Edge Detection":edit.edgeDetect,
+            "Negative":edit.negative,
+            "Embossing": edit.emboss
+        }
         if image_file.filename == '':
             return jsonify({'error': 'No image file selected'}), 400
         # image_file.save('C:/Users/saimy/Desktop/image_file.bmp')
         image_file.save('E:/React/blog_app/backend/static/Web Images/image_file.bmp')
         inpFile=open("static\\Web Images\\image_file.bmp","rb")
         outFile=open("static\\Web Images\\image_file.bmp","r+b")
-        GrayScale.grayScale(inpFile,outFile)
-        
-        # return jsonify({'success': 'Image file uploaded'}), 200
+        process.get(convertTo,edit.grayScale)(inpFile,outFile)
         return url_for('static', filename='Web Images/image_file.bmp')
-         
+        # return jsonify({'success': 'Image file uploaded'}), 200
         # return send_file('static/Web Images/image_file.bmp', mimetype='image/bmp')
     except Exception as e:
         return e

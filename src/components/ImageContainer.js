@@ -2,6 +2,7 @@ import "../styles/Image_Lab.css";
 import axios from "axios";
 import React from "react";
 import { useState,useEffect } from "react";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // import placeholder from "./placeholder.png";
 
 function ImageContainer() {
@@ -18,11 +19,12 @@ function ImageContainer() {
 
   let toggleConfirm = async () => {
     const formData = new FormData();
+    formData.append("convertTo",process);
     formData.append("inpFile", inpFile);
     const config = {
       onUploadProgress: (progressEvent) => {
         setLoadProgress(
-          parseInt((progressEvent.loaded * 100) / progressEvent.total)
+          parseInt(((progressEvent.loaded * 100) / progressEvent.total)-10)
         );
       },
     };
@@ -35,13 +37,13 @@ function ImageContainer() {
           method: "POST",
           headers: {
           	"Content-type": "multipart/form-data",
-            "convert-to": process,
           },
         }
       );
       console.log("done");
       setImgResult("http://localhost:5000/" + res.data);
       console.log("http://localhost:5000/" + res.data);
+      setLoadProgress(100);
       setLoadProgress(-1);
     } catch (error) {
       console.log(error);
@@ -74,6 +76,23 @@ function ImageContainer() {
           coming soon.
         </h1>
         <center>
+        <div id="dropdown-menu">
+          {/* <button id="dropbtn">Convert To <ArrowDropDownIcon/></button> */}
+          <span id="dropbtn">Convert To <ArrowDropDownIcon/></span>
+          <ul className="dropdown-list">
+            {/* <li onClick={event=>event.target.addEventListener("click",toggleDropdown)}>Gray Scale</li>
+            <li onClick={event=>event.target.addEventListener("click",toggleDropdown)}>Negative</li>
+            <li onClick={event=>event.target.addEventListener("click",toggleDropdown)}>Edge Detection</li> */}
+            <li onClick={toggleDropdown}>Gray Scale</li>
+            <li onClick={toggleDropdown}>Negative</li>
+            <li onClick={toggleDropdown}>Edge Detection</li>
+            <li onClick={toggleDropdown}>Embossing</li>
+            {/* <li onClick={event=>event.target.addEventListener("click",toggleDropdown)}>Negative</li>
+            <li onClick={event=>event.target.addEventListener("click",toggleDropdown)}>Edge Detection</li> */}
+          </ul>
+        </div>
+        <br></br>
+        <br></br>
           <input
             type="file"
             id="image-input"
@@ -135,7 +154,6 @@ function ImageContainer() {
           </span>
         </div>
       </div>
-      <center>
         {/* <div id="dropdown-menu-button">
         Convert To
 
@@ -149,23 +167,7 @@ function ImageContainer() {
           </ul>
 
       </div> */}
-        <div id="dropdown-menu">
-          <button id="dropbtn">dropdown-menu</button>
-          <ul className="dropdown-list">
-            <li onClick={document.addEventListener("click",toggleDropdown)}>Gray Scale</li>
-            <li onClick={document.addEventListener("click",toggleDropdown)}>Negative</li>
-            <li onClick={document.addEventListener("click",toggleDropdown)}>Embossing</li>
-          </ul>
-        </div>
-      </center>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
+
     </>
   );
 }

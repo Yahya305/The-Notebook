@@ -1,5 +1,7 @@
 import struct
 
+# def blur(inpFile,outFile):
+
 def convolution(color, kernel, r, c):
     colorconv = (
         (kernel[0][0] * color[r - 1][c - 1])

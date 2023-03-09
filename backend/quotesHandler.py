@@ -64,6 +64,7 @@ def postBlog():
         inpFile=open("static\\Web Images\\image_file.bmp","rb")
         outFile=open("static\\Web Images\\image_file.bmp","r+b")
         process.get(convertTo,edit.grayScale)(inpFile,outFile)
+        print(request.access_control_request_headers)
         return url_for('static', filename='Web Images/image_file.bmp')
         # return jsonify({'success': 'Image file uploaded'}), 200
         # return send_file('static/Web Images/image_file.bmp', mimetype='image/bmp')

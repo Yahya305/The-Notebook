@@ -51,6 +51,8 @@ router.post("/save", (req, res) => {
 });
 
 router.post("/edit", (req, res) => {
+try {
+  console.log("Request Received")
   upload(req, res, (err) => {
     if (err) {
       console.log(err);
@@ -79,6 +81,9 @@ router.post("/edit", (req, res) => {
       });
     }
   });
+} catch (error) {
+  res.status(500).send("Internal Server Error")
+}
 });
 router.get("/find/:image_id", async (req, res) => {
     

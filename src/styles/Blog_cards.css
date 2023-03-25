@@ -12,7 +12,7 @@
     flex-direction: column;
     text-align: center;
     width: 280px;
-    height: 300px;
+    /* height: 300px; */
     padding: 15px;
     margin: 5px;
     border: solid;
@@ -22,4 +22,27 @@
 .card:hover {
     transition: 0.3s; 
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  }
+}
+.button-basic{
+    background-color: #158bf9;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  margin: 10px;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+}
+.button-danger{
+    background-color: #f94315;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  margin: 10px;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+}
+.card-content{
+  overflow: hidden;
+}

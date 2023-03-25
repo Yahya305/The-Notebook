@@ -3,6 +3,7 @@ import axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { Slider } from "@mui/material";
 // import placeholder from "./placeholder.png";
 
 function ImageContainer() {
@@ -12,13 +13,15 @@ function ImageContainer() {
   const [loadProgress, setLoadProgress] = useState(-1);
   const [process, setProcess] = useState();
   const [tempBlob, setTempBlob] = useState();
-
+  const [sliderValue, setSliderValue] = useState(undefined);
+  const [hideSlider, setHideSlider] = useState(true);
 
   useEffect(() => {
-    return () => document.removeEventListener("click", toggleDropdown);
+    return () => document.removeEventListener("click", toggleProcess);
   });
 
   let toggleConfirm = async () => {
+    setHideSlider(true);
     const formData = new FormData();
     formData.append("name", "textimage");
     formData.append("testImage", inpFile);
@@ -31,7 +34,8 @@ function ImageContainer() {
     };
     try {
       const res = await axios.postForm(
-        "http://localhost:5000/api/imagelab/edit?invert=undefined",
+        `http://localhost:5000/api/imagelab/edit?${process}=${sliderValue?sliderValue/100:undefined}`,
+        // `http://localhost:5000/api/imagelab/edit?quality=0`,
         formData,
         config,
         {
@@ -42,10 +46,11 @@ function ImageContainer() {
         }
       );
       console.log("done");
-	  const bytes = new Uint8Array(res.data.imageData.data);
-	  const blob = new Blob([bytes], { type: inpFile.type });
-	  const url = URL.createObjectURL(blob);
-	  setTempBlob(blob);
+      const bytes = new Uint8Array(res.data.imageData.data);
+      const blob = new Blob([bytes], { type: inpFile.type });
+      const url = URL.createObjectURL(blob);
+      setSliderValue(undefined);
+      setTempBlob(blob);
       setImgResult(url);
       setLoadProgress(100);
       setLoadProgress(-1);
@@ -58,6 +63,7 @@ function ImageContainer() {
     //   setInpFile("placeholder.png");
     setImageUrl("placeholder.png");
     setLoadProgress(-1);
+    setHideSlider(true);
   };
 
   function handleFileSelect(event) {
@@ -65,11 +71,17 @@ function ImageContainer() {
     console.log("done");
     setInpFile(file);
     setImageUrl(URL.createObjectURL(file));
+    if (process==="contrast" || process==="brightness") {
+      setHideSlider(false);
+      
+    }
     setLoadProgress(0);
   }
 
   const saveImg = async () => {
-    const file = new File([tempBlob], "edited_image.jpg", { type: "image/jpeg" });
+    const file = new File([tempBlob], "edited_image.jpg", {
+      type: "image/jpeg",
+    });
     const formData = new FormData();
     formData.append("name", "textimage");
     formData.append("testImage", file);
@@ -95,35 +107,52 @@ function ImageContainer() {
     }
   };
 
-  const toggleDropdown = (event) => {
-    setProcess(event.target.textContent);
+  const toggleProcess = (event, process) => {
+    // setProcess(event.target.textContent);
+    setProcess(process);
+    console.log(process);
     document.getElementById("dropbtn").textContent = event.target.textContent;
+  };
+
+  const toggleSlider = (e) => {
+    console.log(e.target.value);
+    setSliderValue(e.target.value);
   };
   return (
     <>
       <div id="clientImg">
         <h1 className="container-heading">
           Unleash the full potential of your memories with our advanced editing
-          tools. Currently, we support 24-bit BMP images only. More formats
-          coming soon.
+          tools.
+          {/* Currently, we support BMP, JPEG, PNG, images only. More formats
+          coming soon. */}
         </h1>
         <center>
           <div id="dropdown-menu">
             {/* <button id="dropbtn">Convert To <ArrowDropDownIcon/></button> */}
-            <span id="dropbtn">
-              Convert To <ArrowDropDownIcon />
-            </span>
+            <div hidden={!hideSlider} id="dropbtn">
+              Filters <ArrowDropDownIcon />
+            </div>
             <ul className="dropdown-list">
-              {/* <li onClick={event=>event.target.addEventListener("click",toggleDropdown)}>Gray Scale</li>
-            <li onClick={event=>event.target.addEventListener("click",toggleDropdown)}>Negative</li>
-            <li onClick={event=>event.target.addEventListener("click",toggleDropdown)}>Edge Detection</li> */}
-              <li onClick={toggleDropdown}>Gray Scale</li>
-              <li onClick={toggleDropdown}>Negative</li>
-              <li onClick={toggleDropdown}>Edge Detection</li>
-              <li onClick={toggleDropdown}>Embossing</li>
-              {/* <li onClick={event=>event.target.addEventListener("click",toggleDropdown)}>Negative</li>
-            <li onClick={event=>event.target.addEventListener("click",toggleDropdown)}>Edge Detection</li> */}
+              {/* <li onClick={event=>event.target.addEventListener("click",toggleProcess)}>Gray Scale</li>
+            <li onClick={event=>event.target.addEventListener("click",toggleProcess)}>Negative</li>
+            <li onClick={event=>event.target.addEventListener("click",toggleProcess)}>Edge Detection</li> */}
+              <li onClick={(e) => toggleProcess(e, "greyscale")}>
+                Gray Scale
+              </li>
+              <li onClick={(e) => toggleProcess(e, "invert")}>Negative</li>
+              <li onClick={(e) => toggleProcess(e, "sepia")}>Sepia</li>
+              <li onClick={(e) => toggleProcess(e, "brightness")}>Brightness</li>
+              <li onClick={(e) => toggleProcess(e, "contrast")}>Contrast</li>
+              {/* <li onClick={()=>toggleProcess()}>Embossing</li> */}
+
+              {/* <li onClick={event=>event.target.addEventListener("click",toggleProcess)}>Negative</li>
+            <li onClick={event=>event.target.addEventListener("click",toggleProcess)}>Edge Detection</li> */}
             </ul>
+          </div>
+          <div hidden={hideSlider} id="slider">
+            <Slider value={sliderValue===undefined?0:sliderValue} onChange={toggleSlider} />
+            <span>{sliderValue}</span>
           </div>
           <br></br>
           <br></br>
@@ -187,7 +216,9 @@ function ImageContainer() {
             <img className="ContainerItem" src={imgResult} alt="Result"></img>
           </span>
         </div>
-		<button onClick={saveImg} className="button">Save Image</button>
+        <button onClick={saveImg} className="button">
+          Save Image
+        </button>
       </div>
       {/* <div id="dropdown-menu-button">
         Convert To

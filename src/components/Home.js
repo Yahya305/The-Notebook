@@ -4,7 +4,7 @@ import ClientBlogs from "./ClientBlogs";
 import Header from "./Header";
 import { AuthContext } from '../App';
 import { useNavigate } from 'react-router-dom';
-import CreateBlog from "./Modals/CreateBlog";
+// import CreateBlog from "./Modals/CreateBlog";
 
 
 const BlogContexts = React.createContext();
@@ -63,7 +63,7 @@ function Home(props) {
     <>
     <BlogContexts.Provider value={{notes,update}}>
       <Header/>
-      <CreateBlog/>
+      {/* <CreateBlog/> */}
       <ClientBlogs/>
 
     </BlogContexts.Provider>

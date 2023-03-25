@@ -107,4 +107,19 @@ router.delete("/deletenote/:note_id", fetchuser, async (req, res) => {
 	// res.status(500).json({ message: "Internal Server Error" });
   }
 });
+router.get("/searchnotes/:key_word", async (req, res) => {
+  try {
+    const findNote = await Notes.find({
+      $or: [{ title: { $regex: new RegExp(req.params.key_word, "i") } }],
+    }).select("-user").select("-__v");
+    if (findNote.length===0) {
+      return res.status(201).json("No Suggestions." );
+    }
+    // res.status(200).json({ findNote });
+    res.status(200).json(findNote);
+  } catch (error) {
+    console.log(error)
+	res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 module.exports = router;

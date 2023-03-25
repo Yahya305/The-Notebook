@@ -30,8 +30,8 @@ input[type="file"] {
 /* ----- */
 /* Style The dropdown-menu Button */
 #dropbtn {
-  display: flex;
-  justify-content: center;
+  /* display: flex; */
+  /* justify-content: center; */
     width: 158px;
     background-color: #4CAF50;
     color: white;
@@ -79,4 +79,12 @@ input[type="file"] {
   /* Change the background color of the dropdown-menu button when the dropdown-menu content is shown */
   #dropdown-menu:hover #dropbtn {
     background-color: #3e8e41;
+  }
+  #slider{
+    /* display: flex; */
+    /* flex-direction: column;
+    justify-content: center;
+    align-items: center; */
+    /* padding: 10px; */
+    width: 300px;
   }

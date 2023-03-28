@@ -86,7 +86,8 @@ router.put("/updatenote/:note_id", fetchuser, async (req, res) => {
       { new: true }
     );
     // note.save();
-    res.status(200).json({ note });
+    // res.status(200).json({ note });
+    res.status(200).send(note);
   } catch (error) {
     console.log(error);
   }

@@ -1,16 +1,23 @@
 import React, { useState, useEffect, useContext } from "react";
-import { BlogContexts } from "./Home";
+// import { BlogContexts } from "./Home";
 import CreateBlog from "./Modals/CreateBlog";
 import { AuthContext } from "../App";
 import ViewBlog from "./ViewBlog";
+import { useDispatch } from 'react-redux'
+import { addBlog, removeBlog } from "../store/slices/BlogsSlice";
+import { useSelector } from "react-redux";
 
 function ClientBlogs() {
-  const blogContext = useContext(BlogContexts);
-  const [blogs, setBlogs] = useState();
+  const dispatch = useDispatch();
+  // const [blogs, setBlogs] = useState();
   const [edit, setEdit] = useState();
   const [editMode, setEditMode] = useState(false);
   const [viewBlog, setViewBlog] = useState(false);
   const token= useContext(AuthContext);
+  const blogs = useSelector((state)=>{
+    console.log(state.blogs,"_______________________________________________")
+    return state.blogs
+  })
 
   useEffect(() => {
     fetch("http://localhost:5000/api/notes/fetchnotes", {
@@ -26,8 +33,9 @@ function ClientBlogs() {
       },
     })
       .then((res) => res.json())
-      .then((f) => setBlogs(f));
-  }, [blogContext.notes,token.token]);
+      .then((f) => {Array.from(f).forEach((blogObj)=>dispatch(addBlog(blogObj)))});
+      // eslint-disable-next-line
+  }, [token.token]);      
 
   const deleteNote = (id) => {
     console.log("Deleting note with id :", id);
@@ -44,10 +52,8 @@ function ClientBlogs() {
         if (res.error) {
           console.log(res.error);
         } else {
-            const newObj=blogContext.notes.filter(
-              (value) => value._id !==res.deletedNote._id
-            )
-			blogContext.update(newObj)
+          dispatch(removeBlog(id))
+            // TODO Delete  Blogs
         }
       });
   };
@@ -55,7 +61,7 @@ function ClientBlogs() {
   const toggleModal = (blg) => {
     // setNotesModal(false);			// TODO
     // editBlog.current=blg;
-    console.log(blg.description.length)
+    // console.log(blg.description.length)
     setEdit(blg);
 	setEditMode(true);
     // console.log(editBlog.current)

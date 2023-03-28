@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { BlogContexts } from "../Home";
 import { AuthContext } from "../../App";
+import { useDispatch } from 'react-redux'
+import { addBlog, editBlog } from "../../store/slices/BlogsSlice";
+
 
 function CreateBlog(props) {
   const blogContext = useContext(BlogContexts);
@@ -9,6 +12,8 @@ function CreateBlog(props) {
   const [descText, setDescText] = useState("");
   const [authorText, setAuthorText] = useState("");
   const [tagText, setTagText] = useState("");
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
     console.log(
@@ -63,7 +68,8 @@ function CreateBlog(props) {
               console.log(res.error);
             //   props.modal.updateModal(true);
             } else {
-                console.log(res)
+                console.log(res,"Edited Blog>>>>>>>>>>>>>>>")
+                dispatch(editBlog(res))
 				props.mode.toggleMode(false);
                 // props.modal.updateModal(true);
             }})
@@ -87,6 +93,7 @@ function CreateBlog(props) {
             if (res.errors) {
               console.log(res.errors);
             } else {
+              dispatch(addBlog(res))
               console.log(blogContext.notes.concat([res]));
               blogContext.update(blogContext.notes.concat([res]));
               console.log("Added");

@@ -1,12 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { BlogContexts } from "../Home";
 import { AuthContext } from "../../App";
 import { useDispatch } from 'react-redux'
 import { addBlog, editBlog } from "../../store/slices/BlogsSlice";
 
 
 function CreateBlog(props) {
-  const blogContext = useContext(BlogContexts);
   const token = useContext(AuthContext);
   const [titleText, setTitleText] = useState("");
   const [descText, setDescText] = useState("");
@@ -16,10 +14,7 @@ function CreateBlog(props) {
 
 
   useEffect(() => {
-    console.log(
-      props.edit !== undefined ? props.edit._id : null,
-      "These props"
-    );
+    props.edit && console.log(props.edit._id)
     setTitleText(props.edit !== undefined ? props.edit.title : titleText);
     setDescText(props.edit !== undefined ? props.edit.description?props.edit.description:"" : descText);
     setAuthorText(props.edit !== undefined ? props.edit.author?props.edit.author:"" : authorText);
@@ -68,9 +63,9 @@ function CreateBlog(props) {
               console.log(res.error);
             //   props.modal.updateModal(true);
             } else {
-                console.log(res,"Edited Blog>>>>>>>>>>>>>>>")
                 dispatch(editBlog(res))
-				props.mode.toggleMode(false);
+				props.mode.toggleEditMode(false);
+				props.mode.setCreateBlog(false);
                 // props.modal.updateModal(true);
             }})
     } else {
@@ -94,9 +89,8 @@ function CreateBlog(props) {
               console.log(res.errors);
             } else {
               dispatch(addBlog(res))
-              console.log(blogContext.notes.concat([res]));
-              blogContext.update(blogContext.notes.concat([res]));
               console.log("Added");
+              props.mode.setCreateBlog(false);
             }
           });
       } catch (error) {
@@ -137,10 +131,8 @@ function CreateBlog(props) {
           id="tags-input"
         ></input>
         <button type="submit">{props.mode.editMode === true?"Save":"Post"}</button>
+        <button type="reset" onClick={()=>props.mode.setCreateBlog(false)}>Close</button>
       </form>
-      <button onClick={() => console.log(props.edit, "_______--")}>
-        check
-      </button>
     </>
   );
 }

@@ -1,23 +1,26 @@
 import React, { useState, useEffect, useContext } from "react";
-// import { BlogContexts } from "./Home";
 import CreateBlog from "./Modals/CreateBlog";
 import { AuthContext } from "../App";
+import { useNavigate } from "react-router-dom";
 import ViewBlog from "./ViewBlog";
-import { useDispatch } from 'react-redux'
+import { useDispatch } from "react-redux";
 import { addBlog, removeBlog } from "../store/slices/BlogsSlice";
 import { useSelector } from "react-redux";
+import { Fab } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import "../styles/CreateBlog.scss";
 
 function ClientBlogs() {
   const dispatch = useDispatch();
-  // const [blogs, setBlogs] = useState();
-  const [edit, setEdit] = useState();
+  const navigate = useNavigate();
+  const [edit, setEdit] = useState(); // This saves the edit blog data
   const [editMode, setEditMode] = useState(false);
+  const [createBlog, setCreateBlog] = useState(false);
   const [viewBlog, setViewBlog] = useState(false);
-  const token= useContext(AuthContext);
-  const blogs = useSelector((state)=>{
-    console.log(state.blogs,"_______________________________________________")
-    return state.blogs
-  })
+  const token = useContext(AuthContext);
+  const blogs = useSelector((state) => {
+    return state.blogs;
+  });
 
   useEffect(() => {
     fetch("http://localhost:5000/api/notes/fetchnotes", {
@@ -33,9 +36,11 @@ function ClientBlogs() {
       },
     })
       .then((res) => res.json())
-      .then((f) => {Array.from(f).forEach((blogObj)=>dispatch(addBlog(blogObj)))});
-      // eslint-disable-next-line
-  }, [token.token]);      
+      .then((f) => {
+        Array.from(f).forEach((blogObj) => dispatch(addBlog(blogObj)));
+      });
+    // eslint-disable-next-line
+  }, [token.token]);
 
   const deleteNote = (id) => {
     console.log("Deleting note with id :", id);
@@ -43,8 +48,7 @@ function ClientBlogs() {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-        `${token.token}`,
+        "auth-token": `${token.token}`,
       },
     })
       .then(((res) => res.json(), (rej) => rej.json()))
@@ -52,67 +56,94 @@ function ClientBlogs() {
         if (res.error) {
           console.log(res.error);
         } else {
-          dispatch(removeBlog(id))
-            // TODO Delete  Blogs
+          dispatch(removeBlog(id));
         }
       });
   };
 
   const toggleModal = (blg) => {
-    // setNotesModal(false);			// TODO
-    // editBlog.current=blg;
-    // console.log(blg.description.length)
     setEdit(blg);
-	setEditMode(true);
-    // console.log(editBlog.current)
+    setEditMode(true);
+	setCreateBlog(true)
   };
-  const toggleMode = (mode) => {
-    // setNotesModal(false);			// TODO
-    // editBlog.current=blg;
+  const toggleEditMode = (mode) => {
     setEditMode(mode);
-    // console.log(editBlog.current)
   };
 
-  const toggleViewBlog=(bool)=>{
+  const toggleViewBlog = (bool) => {
     setViewBlog(bool);
-  }
+  };
 
   return (
     <>
-    {viewBlog?<><ViewBlog blog={{viewBlog,toggleViewBlog}}/></>:
-    <>
-      <CreateBlog mode={{editMode,toggleMode}} edit={edit} />
-      <h2>
-        <center>Your Blogs</center>
-      </h2>
-      <div className="blogs">
-        {blogs
-          ? blogs.map((blg) => {
-              return (
-                <div key={blg._id} className="card" onClick={(e)=>setViewBlog(blg)}>
-                  <img src="blog-PH.png" alt="Card Img" />
-                  <div className="card-content">
-                    <h3 className="card-title">{blg.title}</h3>
-                    <p className="card-author">By : {blg.author}</p>
-                    <p className="card-description">{blg.description?blg.description.length>10?blg.description.substr(0,27)+"...":blg.description:null}</p>
-                  </div>
-                  <div className="card-button">
-                    <button
-                      className="button-basic"
-                      onClick={(e) => {e.stopPropagation();toggleModal(blg)}}
+      {createBlog ? (
+        <CreateBlog mode={{ editMode, toggleEditMode , setCreateBlog}} edit={edit} />
+      ) : viewBlog ? (
+        <>
+          <ViewBlog blog={{ viewBlog, toggleViewBlog }} />
+        </>
+      ) : (
+        <>
+          <div className="fab-container">
+            <Fab
+              className="fab-icn"
+              aria-label="add"
+              onClick={() => setCreateBlog(true)}
+            >
+              <EditIcon className="add-btn" />
+            </Fab>
+          </div>
+          <h2>
+            <center>Your Blogs</center>
+          </h2>
+          <div className="blogs">
+            {blogs
+              ? blogs.map((blg) => {
+                  return (
+                    <div
+                      key={blg._id}
+                      className="card"
+                      onClick={(e) => setViewBlog(blg)}
                     >
-                      Edit
-                    </button>
-                    <button className="button-danger" onClick={(e) =>{e.stopPropagation(); deleteNote(blg._id)}}>Delete</button>
-                  </div>
-                </div>
-              );
-            })
-          : null}
-      </div>
-      </>
-      }
-      {/* <button onClick={()=>console.log(editBlog.current)}> check 2</button> */}
+                      <img src="blog-PH.png" alt="Card Img" />
+                      <div className="card-content">
+                        <h3 className="card-title">{blg.title}</h3>
+                        <p className="card-author">By : {blg.author}</p>
+                        <p className="card-description">
+                          {blg.description
+                            ? blg.description.length > 10
+                              ? blg.description.substr(0, 27) + "..."
+                              : blg.description
+                            : null}
+                        </p>
+                      </div>
+                      <div className="card-button">
+                        <button
+                          className="button-basic"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleModal(blg);
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="button-danger"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deleteNote(blg._id);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })
+              : null}
+          </div>
+        </>
+      )}
     </>
   );
 }

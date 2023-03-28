@@ -4,14 +4,11 @@ import ClientBlogs from "./ClientBlogs";
 import Header from "./Header";
 import { AuthContext } from '../App';
 import { useNavigate } from 'react-router-dom';
-// import CreateBlog from "./Modals/CreateBlog";
 
 
-const BlogContexts = React.createContext();
 function Home(props) {
   const token = useContext(AuthContext);
   const [blogLimit, setBlogLimit] = useState(12);
-  const [notes,setNotes]= useState([]);
   const navigate = useNavigate();
 
 
@@ -22,9 +19,6 @@ function Home(props) {
     
   }, []);     // eslint-disable-line react-hooks/exhaustive-deps
 
-  const update= (a)=>{
-    setNotes(a);
-  }
 
   const getNext = () => {
     setBlogLimit(blogLimit + 12);
@@ -61,12 +55,10 @@ function Home(props) {
 
   return (
     <>
-    <BlogContexts.Provider value={{notes,update}}>
       <Header/>
       {/* <CreateBlog/> */}
       <ClientBlogs/>
 
-    </BlogContexts.Provider>
       {/* <center>
         <button className="button" onClick={getPrev}>
           Previous
@@ -80,4 +72,3 @@ function Home(props) {
 }
 
 export default Home;
-export {BlogContexts}

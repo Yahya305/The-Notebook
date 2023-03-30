@@ -72,7 +72,7 @@ function App() {
             />
             <Route path="/notifications/fam" element={<div>we are fam</div>} />
           </Route>
-          {/* <Route path="/createblog" element={<CreateBlog/>} /> */}
+          <Route path="/createblog" element={<CreateBlog/>} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

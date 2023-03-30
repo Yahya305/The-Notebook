@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../App";
-import { useDispatch } from 'react-redux'
+import { useDispatch } from "react-redux";
 import { addBlog, editBlog } from "../../store/slices/BlogsSlice";
-
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function CreateBlog(props) {
   const token = useContext(AuthContext);
@@ -10,16 +11,37 @@ function CreateBlog(props) {
   const [descText, setDescText] = useState("");
   const [authorText, setAuthorText] = useState("");
   const [tagText, setTagText] = useState("");
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const blogProps = useSelector((state) => {
+    return state.blogProps;
+  });
 
   useEffect(() => {
-    props.edit && console.log(props.edit._id)
-    setTitleText(props.edit !== undefined ? props.edit.title : titleText);
-    setDescText(props.edit !== undefined ? props.edit.description?props.edit.description:"" : descText);
-    setAuthorText(props.edit !== undefined ? props.edit.author?props.edit.author:"" : authorText);
-    setTagText(props.edit !== undefined ? props.edit.tags : tagText);
-  }, [props.edit]); // eslint-disable-line react-hooks/exhaustive-deps
+    console.log(blogProps[0].edit);
+    setTitleText(
+      blogProps[0].edit.title !== undefined
+        ? blogProps[0].edit.title
+        : titleText
+    );
+    setDescText(
+      blogProps[0].edit.description !== undefined
+        ? blogProps[0].edit.description
+          ? blogProps[0].edit.description
+          : ""
+        : descText
+    );
+    setAuthorText(
+      blogProps[0].edit.author !== undefined
+        ? blogProps[0].edit.author
+          ? blogProps[0].edit.author
+          : ""
+        : authorText
+    );
+    setTagText(
+      blogProps[0].edit.tags !== undefined ? blogProps[0].edit.tags : tagText
+    );
+  }, [blogProps[0]]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function handleFormKeyDown(event) {
     if (event.key === "Enter") {
@@ -35,7 +57,6 @@ function CreateBlog(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const newNote = {};
     newNote.title = document.getElementById("title-input").value;
     newNote.date = date2();
@@ -48,26 +69,28 @@ function CreateBlog(props) {
     if (document.getElementById("tags-input").value) {
       newNote.tags = document.getElementById("tags-input").value;
     }
-    if (props.mode.editMode === true) {				// When Edit Mode is Enabled
-		fetch(`http://localhost:5000/api/notes/updatenote/${props.edit._id}`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              "auth-token":
-              `${token.token}`,
-            },
-            body: JSON.stringify(newNote),
-          }).then(((res) => res.json(), (rej) => rej.json()))
-          .then((res) => {
-            if (res.error) {
-              console.log(res.error);
-            //   props.modal.updateModal(true);
-            } else {
-                dispatch(editBlog(res))
-				props.mode.toggleEditMode(false);
-				props.mode.setCreateBlog(false);
-                // props.modal.updateModal(true);
-            }})
+    if (blogProps[0].editMode === true) {
+      // When Edit Mode is Enabled
+      fetch(
+        `http://localhost:5000/api/notes/updatenote/${blogProps[0].edit._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": `${token.token}`,
+          },
+          body: JSON.stringify(newNote),
+        }
+      )
+        .then(((res) => res.json(), (rej) => rej.json()))
+        .then((res) => {
+          if (res.error) {
+            console.log(res.error);
+          } else {
+            dispatch(editBlog(res));
+            navigate(-1);
+          }
+        });
     } else {
       try {
         fetch("http://localhost:5000/api/notes/postnote", {
@@ -88,9 +111,9 @@ function CreateBlog(props) {
             if (res.errors) {
               console.log(res.errors);
             } else {
-              dispatch(addBlog(res))
+              dispatch(addBlog(res));
               console.log("Added");
-              props.mode.setCreateBlog(false);
+              navigate(-1);
             }
           });
       } catch (error) {
@@ -130,8 +153,12 @@ function CreateBlog(props) {
           type="text"
           id="tags-input"
         ></input>
-        <button type="submit">{props.mode.editMode === true?"Save":"Post"}</button>
-        <button type="reset" onClick={()=>props.mode.setCreateBlog(false)}>Close</button>
+        <button type="submit">
+          {blogProps[0].editMode === true ? "Save" : "Post"}
+        </button>
+        <button type="reset" onClick={() => navigate(-1)}>
+          Back
+        </button>
       </form>
     </>
   );

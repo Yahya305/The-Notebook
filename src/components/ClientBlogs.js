@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import CreateBlog from "./Modals/CreateBlog";
 import { AuthContext } from "../App";
 import { useNavigate } from "react-router-dom";
+import { addProps } from "../store/slices/BlogProps";
 import ViewBlog from "./ViewBlog";
 import { useDispatch } from "react-redux";
 import { addBlog, removeBlog } from "../store/slices/BlogsSlice";
@@ -13,9 +13,6 @@ import "../styles/CreateBlog.scss";
 function ClientBlogs() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [edit, setEdit] = useState(); // This saves the edit blog data
-  const [editMode, setEditMode] = useState(false);
-  const [createBlog, setCreateBlog] = useState(false);
   const [viewBlog, setViewBlog] = useState(false);
   const token = useContext(AuthContext);
   const blogs = useSelector((state) => {
@@ -62,34 +59,30 @@ function ClientBlogs() {
   };
 
   const toggleModal = (blg) => {
-    setEdit(blg);
-    setEditMode(true);
-	setCreateBlog(true)
-  };
-  const toggleEditMode = (mode) => {
-    setEditMode(mode);
+    dispatch(addProps({ editMode: true, edit: blg }));
+    navigate("/createblog");
   };
 
   const toggleViewBlog = (bool) => {
     setViewBlog(bool);
   };
 
+  const handleCreate = () => {
+    dispatch(addProps({ editMode: false, edit: {} }));
+    console.log("DONEE");
+    navigate("/createblog");
+  };
+
   return (
     <>
-      {createBlog ? (
-        <CreateBlog mode={{ editMode, toggleEditMode , setCreateBlog}} edit={edit} />
-      ) : viewBlog ? (
+      {viewBlog ? (
         <>
           <ViewBlog blog={{ viewBlog, toggleViewBlog }} />
         </>
       ) : (
         <>
           <div className="fab-container">
-            <Fab
-              className="fab-icn"
-              aria-label="add"
-              onClick={() => setCreateBlog(true)}
-            >
+            <Fab className="fab-icn" aria-label="add" onClick={handleCreate}>
               <EditIcon className="add-btn" />
             </Fab>
           </div>

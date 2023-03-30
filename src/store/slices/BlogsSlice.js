@@ -5,7 +5,10 @@ const blogSlice = createSlice({
     initialState:[],
     reducers:{
         addBlog(state,action){
-            state.push(action.payload)
+            const blogIndex = state.findIndex(blog => blog._id === action.payload._id);
+            if (blogIndex === -1) {
+                state.push(action.payload)
+            }
             // console.log(Array.from(action.payload).forEach((a)=>state.push(a)))
 
         },

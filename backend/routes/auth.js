@@ -79,7 +79,7 @@ router.post(
       const secret = process.env.TOKEN_SECRET;
       const token = jwt.sign(user.id, secret);
       // res.status(200).json([req.body, token]);
-      res.status(200).json({...req.body, token});
+      res.status(200).json({...req.body, token,firstName:user.firstName,lastName:user.lastName});
     } catch (error) {
       console.log("Internal Server Error",error);
     }

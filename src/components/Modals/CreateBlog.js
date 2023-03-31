@@ -9,7 +9,6 @@ function CreateBlog(props) {
   const token = useContext(AuthContext);
   const [titleText, setTitleText] = useState("");
   const [descText, setDescText] = useState("");
-  const [authorText, setAuthorText] = useState("");
   const [tagText, setTagText] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,13 +29,6 @@ function CreateBlog(props) {
           ? blogProps[0].edit.description
           : ""
         : descText
-    );
-    setAuthorText(
-      blogProps[0].edit.author !== undefined
-        ? blogProps[0].edit.author
-          ? blogProps[0].edit.author
-          : ""
-        : authorText
     );
     setTagText(
       blogProps[0].edit.tags !== undefined ? blogProps[0].edit.tags : tagText
@@ -62,9 +54,6 @@ function CreateBlog(props) {
     newNote.date = date2();
     if (document.getElementById("desc-input").value) {
       newNote.description = document.getElementById("desc-input").value;
-    }
-    if (document.getElementById("author-input").value) {
-      newNote.author = document.getElementById("author-input").value;
     }
     if (document.getElementById("tags-input").value) {
       newNote.tags = document.getElementById("tags-input").value;
@@ -138,13 +127,6 @@ function CreateBlog(props) {
           onChange={(e) => setDescText(e.target.value)}
           type="text"
           id="desc-input"
-        ></input>
-        <label>Author</label>
-        <input
-          value={authorText}
-          onChange={(e) => setAuthorText(e.target.value)}
-          type="text"
-          id="author-input"
         ></input>
         <label>Tag</label>
         <input

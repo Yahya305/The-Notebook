@@ -10,7 +10,8 @@ function ViewBlog(props) {
       <h1>Title</h1>
       <span>{props.blog.viewBlog.title}</span>
       <h1>Description</h1>
-      <span>{props.blog.viewBlog.description}</span>
+      {/* <span>{props.blog.viewBlog.description}</span> */}
+      <span dangerouslySetInnerHTML={{ __html: props.blog.viewBlog.description }} />
       <h1>Author</h1>
       <span>{props.blog.viewBlog.author}</span>
       <h1>Tag</h1>

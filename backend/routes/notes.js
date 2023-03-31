@@ -21,8 +21,8 @@ router.post(
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array()[0].msg });
       }
-      const notes = new Notes({ ...req.body, user: req.user.id });
-      console.log(notes.id,"oooooooooooooooooooooooo")
+      const notes = new Notes({ ...req.body, user: req.user.id,author:req.user.firstName+" "+req.user.lastName });
+      console.log(notes.id)
       await notes.save();
       //   console.log(req.body);
       const savedNote = await Notes.findById(notes.id);

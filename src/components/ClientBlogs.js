@@ -92,6 +92,11 @@ function ClientBlogs() {
           <div className="blogs">
             {blogs
               ? blogs.map((blg) => {
+                const plainTextContent = document.createElement("div");
+      plainTextContent.innerHTML = blg.description;
+      const plainDesc = plainTextContent.innerText;
+      plainTextContent.innerHTML = blg.title;
+      const plainTitle = plainTextContent.innerText;
                   return (
                     <div
                       key={blg._id}
@@ -100,13 +105,13 @@ function ClientBlogs() {
                     >
                       <img src="blog-PH.png" alt="Card Img" />
                       <div className="card-content">
-                        <h3 className="card-title">{blg.title}</h3>
+                        <h3 className="card-title">{plainTitle}</h3>
                         <p className="card-author">By : {blg.author}</p>
                         <p className="card-description">
                           {blg.description
-                            ? blg.description.length > 10
-                              ? blg.description.substr(0, 27) + "..."
-                              : blg.description
+                            ? plainDesc.length > 10
+                              ? plainDesc.substring(0, 27) + "..."
+                              : plainDesc
                             : null}
                         </p>
                       </div>

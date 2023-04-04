@@ -10,11 +10,13 @@ import Imagelab from "./components/Imagelab";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import CreateBlog from "./components/Modals/CreateBlog";
+import ViewBlog from "./components/ViewBlog";
 
 const AuthContext = React.createContext();
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [readBlog, setReadBlog] = useState();
 
   const updateToken = (token) => {
     setToken(token);
@@ -51,7 +53,7 @@ function App() {
 
   return (
     <AuthContext.Provider
-      value={{ token, updateToken, isAuthenticated, updateAuth }}
+      value={{ token, updateToken, isAuthenticated, updateAuth,readBlog,setReadBlog }}
     >
       <BrowserRouter>
         <NavBar></NavBar>
@@ -73,6 +75,7 @@ function App() {
             <Route path="/notifications/fam" element={<div>we are fam</div>} />
           </Route>
           <Route path="/createblog" element={<CreateBlog/>} />
+          <Route path="/viewblog" element={<ViewBlog/>} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { AuthContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import { addProps } from "../store/slices/BlogProps";
-import ViewBlog from "./ViewBlog";
 import { useDispatch } from "react-redux";
 import { addBlog, removeBlog } from "../store/slices/BlogsSlice";
 import { useSelector } from "react-redux";
@@ -13,8 +12,7 @@ import "../styles/CreateBlog.scss";
 function ClientBlogs() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [viewBlog, setViewBlog] = useState(false);
-  const token = useContext(AuthContext);
+  const appContext = useContext(AuthContext);
   const blogs = useSelector((state) => {
     return state.blogs;
   });
@@ -26,7 +24,7 @@ function ClientBlogs() {
         "Content-Type": "application/json",
         "auth-token":
           // "eyJhbGciOiJIUzI1NiJ9.NjNmMjcyZDAyNTBhNDBhYjgxNzljMzFm.a6UR2SkxEco4pOZpNEKPQ7yoZ_ry5lD7Rbhv6X_p-wU",
-          token.token,
+          appContext.token,
         "User-Agent": "The-NoteBook",
         from: "0",
         to: "12",
@@ -37,7 +35,7 @@ function ClientBlogs() {
         Array.from(f).forEach((blogObj) => dispatch(addBlog(blogObj)));
       });
     // eslint-disable-next-line
-  }, [token.token]);
+  }, [appContext.token]);
 
   const deleteNote = (id) => {
     console.log("Deleting note with id :", id);
@@ -45,7 +43,7 @@ function ClientBlogs() {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "auth-token": `${token.token}`,
+        "auth-token": `${appContext.token}`,
       },
     })
       .then(((res) => res.json(), (rej) => rej.json()))
@@ -63,10 +61,6 @@ function ClientBlogs() {
     navigate("/createblog");
   };
 
-  const toggleViewBlog = (bool) => {
-    setViewBlog(bool);
-  };
-
   const handleCreate = () => {
     dispatch(addProps({ editMode: false, edit: {} }));
     console.log("DONEE");
@@ -75,12 +69,6 @@ function ClientBlogs() {
 
   return (
     <>
-      {viewBlog ? (
-        <>
-          <ViewBlog blog={{ viewBlog, toggleViewBlog }} />
-        </>
-      ) : (
-        <>
           <div className="fab-container">
             <Fab className="fab-icn" aria-label="add" onClick={handleCreate}>
               <EditIcon className="add-btn" />
@@ -101,7 +89,9 @@ function ClientBlogs() {
                     <div
                       key={blg._id}
                       className="card"
-                      onClick={(e) => setViewBlog(blg)}
+                      onClick={(e) => {
+                      appContext.setReadBlog(blg);
+                    navigate("/viewblog")}}
                     >
                       <img src="blog-PH.png" alt="Card Img" />
                       <div className="card-content">
@@ -141,8 +131,6 @@ function ClientBlogs() {
               : null}
           </div>
         </>
-      )}
-    </>
   );
 }
 

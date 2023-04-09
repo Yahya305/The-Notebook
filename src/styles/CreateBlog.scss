@@ -2,7 +2,7 @@
   position: fixed;
   bottom: 32px;
   right: 32px;
-  z-index: 1; /* make sure the Fab button is above other elements */
+  z-index: 5; /* make sure the Fab button is above other elements */
 
   .fab-icn {
     background-color: #3eb3ff;

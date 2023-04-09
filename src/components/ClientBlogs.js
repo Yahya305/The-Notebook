@@ -69,68 +69,69 @@ function ClientBlogs() {
 
   return (
     <>
-          <div className="fab-container">
-            <Fab className="fab-icn" aria-label="add" onClick={handleCreate}>
-              <EditIcon className="add-btn" />
-            </Fab>
-          </div>
-          <h2>
-            <center>Your Blogs</center>
-          </h2>
-          <div className="blogs">
-            {blogs
-              ? blogs.map((blg) => {
-                const plainTextContent = document.createElement("div");
-      plainTextContent.innerHTML = blg.description;
-      const plainDesc = plainTextContent.innerText;
-      plainTextContent.innerHTML = blg.title;
-      const plainTitle = plainTextContent.innerText;
-                  return (
-                    <div
-                      key={blg._id}
-                      className="card"
+      <div className="fab-container">
+        <Fab className="fab-icn" aria-label="add" onClick={handleCreate}>
+          <EditIcon className="add-btn" />
+        </Fab>
+      </div>
+      <h2>
+        <center>Your Blogs</center>
+      </h2>
+      <div className="blogs">
+        {blogs
+          ? blogs.map((blg) => {
+              const plainTextContent = document.createElement("div");
+              plainTextContent.innerHTML = blg.description;
+              const plainDesc = plainTextContent.innerText;
+              plainTextContent.innerHTML = blg.title;
+              const plainTitle = plainTextContent.innerText;
+              return (
+                <div
+                  key={blg._id}
+                  className="card"
+                  onClick={(e) => {
+                    appContext.setReadBlog(blg);
+                    navigate("/viewblog");
+                  }}
+                >
+                  <img src="blog-PH.png" alt="Card Img" />
+                  <div className="card-content">
+                    <h3 className="card-title">{plainTitle}</h3>
+                    <p className="card-author">By : {blg.author}</p>
+                    <p className="card-description">
+                      {blg.description
+                        ? plainDesc.length > 10
+                          ? plainDesc.substring(0, 27) + "..."
+                          : plainDesc
+                        : null}
+                    </p>
+                  </div>
+                  <div className="card-button">
+                    <button
+                      className="button-basic"
                       onClick={(e) => {
-                      appContext.setReadBlog(blg);
-                    navigate("/viewblog")}}
+                        e.stopPropagation();
+                        toggleModal(blg);
+                      }}
                     >
-                      <img src="blog-PH.png" alt="Card Img" />
-                      <div className="card-content">
-                        <h3 className="card-title">{plainTitle}</h3>
-                        <p className="card-author">By : {blg.author}</p>
-                        <p className="card-description">
-                          {blg.description
-                            ? plainDesc.length > 10
-                              ? plainDesc.substring(0, 27) + "..."
-                              : plainDesc
-                            : null}
-                        </p>
-                      </div>
-                      <div className="card-button">
-                        <button
-                          className="button-basic"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleModal(blg);
-                          }}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="button-danger"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            deleteNote(blg._id);
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })
-              : null}
-          </div>
-        </>
+                      Edit
+                    </button>
+                    <button
+                      className="button-danger"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteNote(blg._id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              );
+            })
+          : null}
+      </div>
+    </>
   );
 }
 

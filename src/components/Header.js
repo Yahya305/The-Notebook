@@ -18,10 +18,10 @@ function Header() {
           <div>
             <h4 className="quote">{data.quote}</h4>
           </div>
-          <div className="author">---By {data.author}</div>
+          <div className="navcontent__author">---By {data.author}</div>
           <SearchBar></SearchBar>
         </span>
-        <img className="navimg" src="navbar image2.jpg" alt="unavailable"></img>
+        <img className="navcontent__img" src="navbar image2.jpg" alt="unavailable"></img>
       </div>
   )
 }

@@ -5,9 +5,12 @@ import SearchSuggestions from "./SearchSuggestions";
 function SearchBar() {
   const [clicked, toggleClick] = useState(false);
   const [searchItem, setSearchItem] = useState([]);
+  const [text, setText] = useState("");
+
 
   let filterHandle = async (event) => {
     toggleClick(true);
+    setText(event.target.value);
     if (event.target.value) {
       let res = await fetch(
         `http://localhost:5000/api/notes/searchnotes/${event.target.value}`,
@@ -27,11 +30,14 @@ function SearchBar() {
   };
   return (
     <div className="searchbox">
-      <input
+      {/* <input
+      className="searchbox__inp"
         type="text"
         placeholder="Search Blogs..."
         onChange={filterHandle}
-      ></input>
+      ></input> */}
+      <textarea className="searchbox__inp" placeholder="Search Here" value={text} onChange={filterHandle} id="exampleFormControlTextarea1" rows="1"></textarea>
+
       <SearchIcon
         className="searchicn"
         sx={{ width: 42, height: 49 }}

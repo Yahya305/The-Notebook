@@ -1,0 +1,191 @@
+// *{
+//   margin: 0;
+//   padding: 0;
+//   box-sizing: border-box;
+// }
+// .App {
+//   text-align: center;
+// }
+
+
+// .App-header {
+//   background-color: #282c34;
+//   min-height: 100vh;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   font-size: calc(10px + 2vmin);
+//   color: white;
+// }
+
+// .App-link {
+//   color: #61dafb;
+// }
+
+// .button {
+//   background-color: #158bf9;
+//   color: white;
+//   padding: 5px;
+//   border-radius: 5px;
+//   margin: 10px;
+//   font-size: 20px;
+//   border: none;
+//   cursor: pointer;
+// }
+// .navbtns{
+//   font-weight: 600;
+//   display: flex;
+//   justify-content: flex-end;
+//   align-items: center;
+//   /* margin: 1%; */
+//   list-style-type: none;
+//   margin-right: 8%;
+// }
+// .navbar{
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   font-size: larger;
+//   /* background-color: #61dafb; */
+// }
+// .bloglogo{
+//   font-weight: 700;
+//   display: flex;
+//   justify-self: start;
+//   margin-left: 8%;
+// }
+// #title{
+//   font-family: 'Old English Text MT';
+// }
+// .navitem{
+//   color: #282c34;
+//   /* display: flex; */
+//   /* justify-self: flex-end; */
+//   padding: 1%;
+//   padding: 10px;
+//   cursor: pointer;
+//   border-radius: 5px;
+//   text-decoration: none;
+// }
+// .navitem:hover{
+//   color: rgb(43,237,37);
+// }
+// .navcontent{
+//   display: flex;
+//   justify-content: space-between;
+//   margin-left: 6.5%;
+//   margin-right: 6.5%;
+//   font-family: "Libre Baskerville";
+//   font-size: 180%;
+// }
+// .navquote{
+//   width: 42%;
+// }
+// .navimg{
+//   width: 59%;
+//   height: 500px;
+// }
+// .navquote input[type=text] {
+//   padding: 6px;
+//   padding-top: 8px;
+//   border-radius: 2px;
+//   width: 65%;
+//   font-size: 27px;
+// }
+// .searchicn{
+//   position: absolute;
+//   left: 380px;
+//   border: solid;
+//   /* border-width: 1px; */
+//   /* display: grid; */
+// }
+// .searchresults{
+//   width: 68.5%;
+//   height: 180px;
+//   overflow: hidden;
+//   overflow-y: auto;
+// }
+// .searchItem{
+//   width: 330px;
+//   display: flex;
+//   flex-direction: column;
+//   border-bottom: solid;
+//   border-left: solid;
+//   border-right: solid;
+//   border-bottom-width: 1px;
+//   border-left-width: 1px;
+//   border-right-width: 1px;
+//   border-color: grey;
+// }
+// .searchItemTitle{
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   font-size: medium;
+//   color: #282c34;
+//   padding: 3px;
+//   text-decoration: none;
+// }
+// #tags{
+//   color: rgb(70 201 111);
+// }
+// .searchItemDesc{
+//   display: none;
+//   font-size: small;
+//   color: grey;
+//   padding: 3px;
+//   border-top: solid;
+//   border-top-width: 1px;
+//   border-top-color: grey;
+// }
+// .searchItem:hover .searchItemDesc{
+//   display: flex !important;
+// }
+// .quote{
+//   margin-bottom: 1%;
+// }
+// .author{
+//   /* color: rgb(169, 169, 169); */
+//   /* color: rgb(128, 128, 128); */
+//   color: rgb(137, 148, 153);
+//   font-size: medium;
+//   padding-bottom: 50px;
+// }
+// .searchbox{
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: flex-start;
+// }
+// .searchbox{
+//   display: flex;
+//   justify-content: right;
+// }
+
+// .sticky {
+//   background-color: white;
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   z-index: 1;
+// }
+
+/* 
+-----display flex-----
+justify-content is used to move elements along a row
+align-items is used to align items in a column
+flex-direction is used to arrange items wrt their order (row-col-reverse)
+flex-wrap is used to wrap the items in different lines
+*/
+
+@import './styles/Navbar';
+@import './styles/Header';
+// @import './styles/Login';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}

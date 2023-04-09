@@ -1,13 +1,14 @@
-import React,{useContext} from "react";
+import React,{useContext,useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../App";
 import { NavLink } from "react-router-dom";
-
+import "../styles/Login.scss"
 
 
 function Login() {
   const navigate = useNavigate();
   const token= useContext(AuthContext);
+  const [displayErrMsg, setDisplayErrMsg]= useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,6 +26,7 @@ function Login() {
       .then((res) => {
         console.log(res.success)
         if (res.error) {
+          setDisplayErrMsg(true)
             console.log(res.error);
         } else {
             localStorage.setItem("token", res.token);
@@ -36,21 +38,30 @@ function Login() {
       });
   };
   return (
-    <div>
-      <form onSubmit={handleSubmit} action="/login" method="post">
+    <>
+    <div hidden={!displayErrMsg}>Please Login with the correct credentials</div>
+      <form className="login-container" onSubmit={handleSubmit} action="/login" method="post" >
+        <div className="creds">
         <h1>Login</h1>
-        <label htmlFor="email">Email:</label>
+        <div className="field">
+        <label htmlFor="email">Email: &nbsp;</label>
         <input type="text" id="email" name="email" required />
-        <br />
-        <label htmlFor="password">Password:</label>
+        </div>
+        <div className="field">
+        <label htmlFor="password">Password: &nbsp;</label>
         <input type="password" id="password" name="password" required />
-        <br />
+        </div>
+        </div>
+        <div className="login-btns">
         <button type="submit">Login</button>
-      </form>
-      <NavLink to={"/signup"} style={({isActive})=>isActive? {color:"rgb(43,237,37)"}:null} aria-current="page" href="/" className='navitem' >
+        <button id="signup-btn">
+      <NavLink to={"/signup"} style={{color:"white",textDecoration:"none"}} aria-current="page" href="/" >
             Signup
         </NavLink>
-    </div>
+        </button>
+        </div>
+      </form>
+    </>
   );
 }
 

@@ -189,3 +189,23 @@ flex-wrap is used to wrap the items in different lines
   padding: 0;
   box-sizing: border-box;
 }
+.button-basic{
+  background-color: #158bf9;
+color: white;
+padding: 5px;
+border-radius: 5px;
+margin: 10px;
+font-size: 20px;
+border: none;
+cursor: pointer;
+}
+.button-danger{
+  background-color: #f94315;
+color: white;
+padding: 5px;
+border-radius: 5px;
+margin: 10px;
+font-size: 20px;
+border: none;
+cursor: pointer;
+}

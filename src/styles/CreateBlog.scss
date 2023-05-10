@@ -1,3 +1,4 @@
+@import "./media-queries";
 .fab-container {
   position: fixed;
   bottom: 32px;
@@ -12,4 +13,39 @@
       background-color: #2895d5;
     }
   }
+
+}
+#blgtitle-input{
+  margin-top: 10px;
+  position: relative;
+  width: 25vw;
+  height: 3.5vw;
+  margin-bottom: 5px;
+  margin-left: 5px;
+    .text-area {
+      resize: none;
+      font-size: 1.5vw;
+      position: absolute;
+      padding: 1.5%;
+      height: 100%;
+      width: 100%;
+      top: 0px;
+      left: 0px;
+      overflow-y: hidden;
+
+    }
+    @include tablet{
+      height: 4vw;
+      width: 32vw;
+      .text-area {
+        font-size: 2vw;
+      }
+    }
+    @include mobile{
+      height: 6.5vw;
+      width: 40vw;
+      .text-area {
+        font-size: 2.5vw;
+      }
+    }
 }

@@ -6,7 +6,7 @@ function Header() {
     const [data, setdata] = useState({});
 
     useEffect(()=>{
-        fetch("http://localhost:5000/api/randomquote")
+        fetch("http://192.168.18.54:5000/api/randomquote")
       .then((res) => res.json())
       .then((f) => setdata(f));
     },[])

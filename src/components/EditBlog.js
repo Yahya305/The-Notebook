@@ -24,7 +24,7 @@ function EditBlog(props) {
       tags: tags.current.value,
       date: getDate(),
     };
-    fetch(`http://localhost:5000/api/notes/updatenote/${props.edit._id}`, {
+    fetch(`http://192.168.18.54:5000/api/notes/updatenote/${props.edit._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

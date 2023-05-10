@@ -34,7 +34,7 @@ function ImageContainer() {
     };
     try {
       const res = await axios.postForm(
-        `http://localhost:5000/api/imagelab/edit?${process}=${sliderValue?sliderValue/100:undefined}`,
+        `http://192.168.18.54:5000/api/imagelab/edit?${process}=${sliderValue?sliderValue/100:undefined}`,
         // `http://localhost:5000/api/imagelab/edit?quality=0`,
         formData,
         config,
@@ -87,7 +87,7 @@ function ImageContainer() {
     formData.append("testImage", file);
     try {
       const res = await axios.postForm(
-        "http://localhost:5000/api/imagelab/save",
+        "http://192.168.18.54:5000/api/imagelab/save",
         formData,
         {
           method: "POST",

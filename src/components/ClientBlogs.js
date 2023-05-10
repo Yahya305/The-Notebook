@@ -18,7 +18,7 @@ function ClientBlogs() {
   });
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/notes/fetchnotes", {
+    fetch("http://192.168.18.54:5000/api/notes/fetchnotes", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -39,7 +39,7 @@ function ClientBlogs() {
 
   const deleteNote = (id) => {
     console.log("Deleting note with id :", id);
-    fetch(`http://localhost:5000/api/notes/deletenote/${id}`, {
+    fetch(`http://192.168.18.54:5000/api/notes/deletenote/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -97,14 +97,15 @@ function ClientBlogs() {
                   <img src="blog-PH.png" alt="Card Img" />
                   <div className="card-content">
                     <h3 className="card-title">{plainTitle}</h3>
-                    <p className="card-author">By : {blg.author}</p>
+                    <p className={`card-tag ${blg.tags}`}>{blg.tags}</p>
                     <p className="card-description">
                       {blg.description
                         ? plainDesc.length > 10
-                          ? plainDesc.substring(0, 27) + "..."
+                          ? plainDesc.substring(0,65) + "..."
                           : plainDesc
                         : null}
                     </p>
+                    <p className="card-author">By : {blg.author}</p>
                   </div>
                   <div className="card-button">
                     <button

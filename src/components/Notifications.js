@@ -4,15 +4,22 @@ import { Editor } from "@tinymce/tinymce-react";
 
 function Notifications() {
   const editorRef = useRef(null);
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
+
   // xiwtuyxbxh24lsdf5re8k8fms6rrnrafevtelezj337pw0qi
   return (
     <>
-      <Editor
+      <Outlet></Outlet>
+    </>
+  );
+}
+
+export default Notifications;
+// const log = () => {
+//   if (editorRef.current) {
+//     console.log(editorRef.current.getContent());
+//   }
+// };
+{/* <Editor
         apiKey='xiwtuyxbxh24lsdf5re8k8fms6rrnrafevtelezj337pw0qi'
         onInit={(evt, editor) => editorRef.current = editor}
         initialValue="<p>This is the initial content of the editor.</p>"
@@ -31,10 +38,4 @@ function Notifications() {
           content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
         }}
       />
-      <button onClick={log}>Log editor content</button>
-      <Outlet></Outlet>
-    </>
-  );
-}
-
-export default Notifications;
+      <button onClick={log}>Log editor content</button> */}

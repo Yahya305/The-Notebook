@@ -1,4 +1,4 @@
-import "../styles/Blog_cards.css";
+import "../styles/Blog_cards.scss";
 import React, { useState, useEffect,useContext } from "react";
 import ClientBlogs from "./ClientBlogs";
 import Header from "./Header";

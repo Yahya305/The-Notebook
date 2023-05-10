@@ -15,7 +15,7 @@ function Login() {
     const creds = {};
     creds.email = event.target.email.value;
     creds.password = event.target.password.value;
-    fetch("http://localhost:5000/api/auth/login", {
+    fetch("http://192.168.18.54:5000/api/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

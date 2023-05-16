@@ -6,18 +6,26 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Editor } from "@tinymce/tinymce-react";
 import "../../styles/CreateBlog.scss"
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 function CreateBlog(props) {
   const token = useContext(AuthContext);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  // const [tagText, setTagText] = useState("");
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const blogProps = useSelector((state) => {
     return state.blogProps;
   });
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [blogTag, setBlogTag] = useState();
+  const [titleText, setTitleText] = useState(
+    blogProps[0].editMode === true
+    ? blogProps[0].edit.title
+    : ""
+  );
+  const tagRef=useRef();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const editorRef = useRef(null);
-  const log = () => {
+  const log = (e) => {
+    e.preventDefault();
     const title= document.getElementById("blgtitle-input").value;
     console.log("title=   ",title)
     if (editorRef.current) {
@@ -25,7 +33,9 @@ function CreateBlog(props) {
       // newNote.title = editorRef.current.getContent().split("\n")[0];
       newNote.title = title;
       newNote.description = editorRef.current.getContent();
+      newNote.tags = blogTag;
       // console.log(editorRef.current.getContent());
+      console.log("Reached herererereererererererer")
       if (blogProps[0].editMode === true) {
         // When Edit Mode is Enabled
         fetch(
@@ -90,7 +100,7 @@ function CreateBlog(props) {
   };
 
   useEffect(() => {
-    console.log(blogProps[0].edit);
+    console.log(blogProps[0].editMode,"hehhererhehreh",blogProps[0].edit._id);
   }, [blogProps[0]]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // const date2 = () => {
@@ -99,25 +109,64 @@ function CreateBlog(props) {
   //   return yourDate.toISOString().split("T")[0];
   // };
 
+const setTag = (event, tag) => {
+  const colorScheme={
+    "action": "#F94144",
+    "comedy":"#F8961E",
+    "education":"#01a7fb",
+    "food":"#F3722C",
+    "tech":"#586d8b",
+    "scifi":"#43AA8B",
+    "romance":"#f45af9",
+    "sports":"#0019ff",
+  }
+  setBlogTag(tag);
+  console.log(tag);
+  tagRef.current.textContent = event.target.textContent;
+  tagRef.current.style.backgroundColor = colorScheme[tag];
+};
   return (
     <>
     <form onSubmit={log}>
-      <div id="blgtitle-input" className="row">
-      <textarea type="text" className="text-area" placeholder="Blog Title Here..." required={true}/>
+      <div className="blg-header">
+      <div className="row">
+      <textarea id="blgtitle-input" type="text" className="text-area" placeholder="Blog Title Here..." value={titleText} onChange={(e)=>setTitleText(e.target.value)} required={true}/>
+      </div>
+      <div id="blg-tagmenu">
+            <div ref={tagRef} id="dropbtn-tag">
+              Tags <ArrowDropDownIcon />
+            </div>
+            <ul id="tag-dropdown">
+              <li onClick={(e) => setTag(e, "action")}>
+                Action
+              </li>
+              <li onClick={(e) => setTag(e, "comedy")}>Comedy</li>
+              <li onClick={(e) => setTag(e, "education")}>Education</li>
+              <li onClick={(e) => setTag(e, "food")}>Food</li>
+              <li onClick={(e) => setTag(e, "tech")}>Tech</li>
+              <li onClick={(e) => setTag(e, "scifi")}>Sci-fi</li>
+              <li onClick={(e) => setTag(e, "romance")}>Romance</li>
+              <li onClick={(e) => setTag(e, "sports")}>Sports</li>
+            </ul>
+          </div>
       </div>
       <Editor
         apiKey="xiwtuyxbxh24lsdf5re8k8fms6rrnrafevtelezj337pw0qi"
         onEditorChange={handleEditorChange}
         onInit={(evt, editor) => (editorRef.current = editor)}
 
-        // initialValue={
-        //   blogProps[0].editMode === true
-        //     ? blogProps[0].edit.description
-        //     : `<h1 style='text-align: center;'>Blog Title</h1><p>Whats on your mind?&nbsp;</p>`
-        // }
+        initialValue={
+          blogProps[0].editMode === true
+            ? blogProps[0].edit.description
+            : ""
+        }
+        // `<h1 style='text-align: center;'>Blog Title</h1><p>Whats on your mind?&nbsp;</p>`
         init={{
           height: 500,
           menubar: false,
+          init_instance_callback: function (editor) {
+            document.getElementById('loading-gif').style.display = 'none';
+          },
           plugins: [
             "advlist",
             "autolink",
@@ -162,10 +211,13 @@ function CreateBlog(props) {
             placeholder: `Type your content here...`
         }}
       />
-      <button type="submit" disabled={isButtonDisabled} className="button-basic" id="post/save-btn" onClick={(e) => {
-                        e.stopPropagation();
-                      }} >{blogProps[0].editMode?"Save":"Post"}</button>
+      <button type="submit" disabled={isButtonDisabled} className="button-basic" id="post/save-btn">{blogProps[0].editMode?"Save":"Post"}</button>
+      <button type="reset" className="button-danger"  onClick={()=>navigate(-1)}>Close</button>
+      {/* <button>Tags</button> */}
       </form>
+      <div className="loading">
+      <img id="loading-gif" src="6.gif" alt="Card Img" />
+      </div>
     </>
   );
 }

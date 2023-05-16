@@ -4,6 +4,7 @@ import ClientBlogs from "./ClientBlogs";
 import Header from "./Header";
 import { AuthContext } from '../App';
 import { useNavigate } from 'react-router-dom';
+import Footer from "./Footer";
 
 
 function Home(props) {
@@ -53,12 +54,12 @@ function Home(props) {
   };
   
 
+
   return (
     <>
       <Header/>
       {/* <CreateBlog/> */}
       <ClientBlogs/>
-
       {/* <center>
         <button className="button" onClick={getPrev}>
           Previous

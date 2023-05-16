@@ -209,3 +209,9 @@ font-size: 20px;
 border: none;
 cursor: pointer;
 }
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}

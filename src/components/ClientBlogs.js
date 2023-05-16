@@ -94,7 +94,8 @@ function ClientBlogs() {
                     navigate("/viewblog");
                   }}
                 >
-                  <img src="blog-PH.png" alt="Card Img" />
+                  {/* <img src="blog-PH.png" alt="Card Img" /> */}
+                  <img src={blg.description.indexOf("<img ")===-1?"blog-PH.png":blg.description.substring(blg.description.indexOf("<img")+10, blg.description.indexOf('alt="')-2)} alt="Card Img" />
                   <div className="card-content">
                     <h3 className="card-title">{plainTitle}</h3>
                     <p className={`card-tag ${blg.tags}`}>{blg.tags}</p>

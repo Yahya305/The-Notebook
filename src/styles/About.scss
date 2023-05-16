@@ -1,0 +1,47 @@
+@import "media-queries";
+
+
+.about-container{
+    width: 85vw;
+    margin: auto;
+    margin-top: 10px;
+    padding: 5px;
+    // margin-right: 5vw;
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    #Yahya{
+        // width: 20vw;
+        width: clamp(194px,20vw,800px);
+        // height: auto;
+        max-height: 45vw;
+        // height: auto;
+        // max-height: 283px;
+    }
+    #about-text{
+        padding: 5px;
+        ul{
+            list-style: circle;
+            list-style-position: inside;
+            margin-top: 15px;
+            // padding-left: 25px;
+        }
+        @include tablet{
+            font-size: 0.7rem;
+        }
+    }
+    @include mobile{
+        flex-direction: column;
+        align-items: center;
+        #Yahya{
+            max-width: 75vw;
+            max-height: none;
+        }
+        #about-text{
+            font-size: 0.65rem;
+            ul{
+                list-style-position: outside;
+            }
+        }
+    }
+}

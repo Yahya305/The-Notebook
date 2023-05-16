@@ -11,6 +11,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import CreateBlog from "./components/Modals/CreateBlog";
 import ViewBlog from "./components/ViewBlog";
+import Footer from "./components/Footer";
 
 const AuthContext = React.createContext();
 function App() {
@@ -55,6 +56,7 @@ function App() {
     <AuthContext.Provider
       value={{ token, updateToken, isAuthenticated, updateAuth,readBlog,setReadBlog }}
     >
+      <div className="main-container" >
       <BrowserRouter>
         <NavBar></NavBar>
         <Routes>
@@ -83,6 +85,8 @@ function App() {
           <Route path="*" element={<Errorpage />} />
         </Routes>
       </BrowserRouter>
+      <Footer/>
+      </div>
     </AuthContext.Provider>
   );
 }
